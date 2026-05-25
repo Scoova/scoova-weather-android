@@ -87,7 +87,7 @@ publishing {
             }
         }
 
-        // Maven Central via Sonatype OSSRH (when credentials are present).
+        // Maven Central staging.
         maven {
             name = "MavenCentral"
             val releasesUrl  = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
