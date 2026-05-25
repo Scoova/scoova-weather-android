@@ -1,6 +1,6 @@
 # scoova-weather-android (Kotlin / JVM)
 
-Open-meteo compatible Kotlin client for `weather.scoo-va.info`. Plain JVM —
+Compatible Kotlin client for `weather.scoo-va.info`. Plain JVM —
 runs on Android (API 21+) and any JVM ≥ 17 without the Android platform.
 
 ## Install

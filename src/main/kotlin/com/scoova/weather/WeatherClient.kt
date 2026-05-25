@@ -9,7 +9,7 @@ import java.net.URLEncoder
 
 /**
  * Variable names you can request via `current` / `hourly` / `daily`. Subset of
- * open-meteo — pass `WeatherVar(rawValue = "...")` for anything not pre-defined.
+ * scoova weather — pass `WeatherVar(rawValue = "...")` for anything not pre-defined.
  */
 data class WeatherVar(val rawValue: String) {
     companion object {
@@ -101,7 +101,7 @@ fun decodeWeatherCode(code: Int?): WeatherCondition {
 typealias WeatherHttp = suspend (url: String, headers: Map<String, String>) -> Pair<Int, String>
 
 /**
- * Open-meteo compatible client for the Scoova weather gateway.
+ * Compatible client for the Scoova weather gateway.
  *
  * Defaults to the central Scoova gateway
  * (`https://api.scoo-va.info/api/v1/weather`). Pass [apiKey] for

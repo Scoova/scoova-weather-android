@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "info.scoo-va"
-version = "1.1.2"
+version = "1.1.3"
 
 repositories {
     mavenCentral()
@@ -45,7 +45,7 @@ publishing {
 
             pom {
                 name.set("Scoova Weather SDK (Android / JVM)")
-                description.set("Open-Meteo-compatible weather client (current, hourly, daily).")
+                description.set("Scoova weather weather client (current, hourly, daily).")
                 url.set("https://github.com/Scoova/scoova-weather-android")
                 licenses {
                     license {
