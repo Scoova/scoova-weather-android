@@ -40,7 +40,7 @@ publishing {
             from(components["java"])
 
             groupId = project.group.toString()
-            artifactId = "scoova-weather"
+            artifactId = "scoova-weather-android"
             version = project.version.toString()
 
             pom {
