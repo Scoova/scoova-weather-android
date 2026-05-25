@@ -5,11 +5,11 @@ runs on Android (API 21+) and any JVM ≥ 17 without the Android platform.
 
 ## Install
 
-Maven artifact: `info.scoo-va:scoova-weather:1.1.0`
+Maven artifact: `info.scoo-va:scoova-weather-android:1.1.3`
 
 ```kotlin
 dependencies {
-    implementation("info.scoo-va:scoova-weather:1.1.0")
+    implementation("info.scoo-va:scoova-weather-android:1.1.3")
 }
 ```
 
