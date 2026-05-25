@@ -101,11 +101,12 @@ fun decodeWeatherCode(code: Int?): WeatherCondition {
 typealias WeatherHttp = suspend (url: String, headers: Map<String, String>) -> Pair<Int, String>
 
 /**
- * Open-meteo compatible client for `weather.scoo-va.info`.
+ * Open-meteo compatible client for the Scoova weather gateway.
  *
- * Point [baseUrl] at the gateway (`https://api.scoo-va.info/v1/weather`) and
- * pass [apiKey] for key-enforced calls. Reads `SCOOVA_API_KEY` from the
- * environment when [apiKey] is null.
+ * Defaults to the central Scoova gateway
+ * (`https://api.scoo-va.info/api/v1/weather`). Pass [apiKey] for
+ * key-enforced calls. Reads `SCOOVA_API_KEY` from the environment when
+ * [apiKey] is null.
  *
  * [locale] sets the default locale (BCP-47 — `en`, `en-US`, `fr`, `es`,
  * `de`, `it`, `pt-BR`, `nl`, `ar`, `ar-EG`, `ar-SA`, plus regional
@@ -113,7 +114,7 @@ typealias WeatherHttp = suspend (url: String, headers: Map<String, String>) -> P
  * `locale` overrides the client default.
  */
 class WeatherClient(
-    baseUrl: String = "https://weather.scoo-va.info",
+    baseUrl: String = "https://api.scoo-va.info/api/v1/weather",
     apiKey: String? = null,
     private val locale: String? = null,
     private val timeoutMs: Int = 30_000,
