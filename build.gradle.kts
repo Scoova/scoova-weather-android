@@ -39,18 +39,14 @@ publishing {
         create<MavenPublication>("release") {
             from(components["java"])
 
-            groupId = project.group.toString()
+            groupId    = "info.scoo-va"
             artifactId = "scoova-weather-android"
-            version = project.version.toString()
+            version    = project.version.toString()
 
             pom {
-                name.set("Scoova Weather Android SDK")
-                description.set(
-                    "Open-meteo compatible Kotlin client for the Scoova weather gateway. " +
-                    "Current conditions, hourly + daily forecasts, locale-aware."
-                )
+                name.set("Scoova Weather SDK (Android / JVM)")
+                description.set("Open-Meteo-compatible weather client (current, hourly, daily).")
                 url.set("https://github.com/Scoova/scoova-weather-android")
-
                 licenses {
                     license {
                         name.set("Apache License, Version 2.0")
@@ -58,7 +54,6 @@ publishing {
                         distribution.set("repo")
                     }
                 }
-
                 developers {
                     developer {
                         id.set("scoova")
@@ -66,7 +61,6 @@ publishing {
                         email.set("info@scoo-va.info")
                     }
                 }
-
                 scm {
                     connection.set("scm:git:git://github.com/Scoova/scoova-weather-android.git")
                     developerConnection.set("scm:git:ssh://github.com:Scoova/scoova-weather-android.git")
@@ -77,7 +71,7 @@ publishing {
     }
 
     repositories {
-        // GitHub Packages (works immediately once GITHUB_TOKEN is exported).
+        // GitHub Packages — works immediately in Actions via GITHUB_TOKEN.
         maven {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/Scoova/scoova-weather-android")
@@ -87,22 +81,26 @@ publishing {
             }
         }
 
-        // Maven Central staging.
+        // Local staging dir. `publishReleasePublicationToLocalStagingRepository`
+        // writes the signed Maven layout here; the publish-to-central-portal.sh
+        // script zips it and uploads to Sonatype Central Portal.
         maven {
-            name = "MavenCentral"
-            val releasesUrl  = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-            val snapshotsUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-            url = if (version.toString().endsWith("SNAPSHOT")) snapshotsUrl else releasesUrl
-            credentials {
-                username = System.getenv("OSSRH_USERNAME") ?: project.findProperty("ossrh.username") as? String ?: ""
-                password = System.getenv("OSSRH_PASSWORD") ?: project.findProperty("ossrh.password") as? String ?: ""
-            }
+            name = "LocalStaging"
+            url = uri(layout.buildDirectory.dir("staging-deploy"))
         }
     }
 }
 
-// GPG signing — required for Maven Central; skipped locally / on GHP.
+// In-memory PGP signing — required by Maven Central. SIGNING_KEY is the
+// ASCII-armored secret key; SIGNING_PASSWORD is optional (current Scoova
+// release key is passphrase-less). When absent (local builds, GitHub
+// Packages), signing is skipped.
 signing {
-    isRequired = gradle.taskGraph.hasTask("publishReleasePublicationToMavenCentralRepository")
-    sign(publishing.publications["release"])
+    val signingKey: String? = System.getenv("SIGNING_KEY")
+    val signingPassword: String? = System.getenv("SIGNING_PASSWORD")
+    isRequired = signingKey != null
+    if (signingKey != null) {
+        useInMemoryPgpKeys(signingKey, signingPassword)
+        sign(publishing.publications["release"])
+    }
 }
